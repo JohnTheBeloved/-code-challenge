@@ -15,4 +15,6 @@ public interface ExchangeService {
 
 	boolean save(List<Exchange> exchanges);
 
+	List<Exchange> getDateExchanges(String date);
+
 }

@@ -29,40 +29,29 @@
         <div class="row">
             <div class="medium-12 columns">
                 <div class="table-scroll">
+                    <form th:action="@{/home}" th:object="${queryForm}" method="post">
+                        <input type="date" th:value="${queryForm.date}">
+                        <a th:each="date : ${queryForm.queryHistory}" href="@{/home/{queryForm.date}}" th:text="date"></a>
+                    </form>
                     <table id="app-ids">
                         <thead>
                             <tr>
                                 <th style="width:20%">
-                                    USD Exchange History
+                                    Exchange Currency
                                 </th>
                                 <th>
-                                    EUR
+                                    Date
                                 </th>
                                 <th>
-                                    GBP
-                                </th>
-                                <th>
-                                    NZD
-                                </th>
-                                <th>
-                                    AUD
-                                </th>
-                                <th>
-                                    JPY
-                                </th>
-                                <th>
-                                    HUF
+                                    Rate
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td> <span th:text="${latest.date}"></span>(Latest)</td>
-                                <td th:each="exchange : ${#latest.exchangeRates}" th:text="${exchange.rate}" class="monospace"> </td>
-                            </tr>
-                            <tr th:each="exchangeHistory : ${#exchangeHistories}">
-                                <td th:text="${exchangeHistory.date}"> </td>
-                                <td th:each="exchange : ${#exchangeHistory.exchangeRates}" th:text="${exchange.rate}" class="monospace"> </td>
+                            <tr th:each="exchangeRate : ${exchangeRates}">
+                                <td class="monospace" th:text="${exchangeRate.currency.name}"> </td>
+                                <td class="monospace" th:text="${exchangeRate.date}"> </td>
+                                <td class="monospace" th:text="${exchangeRate.rate}"> </td>
                             </tr>
                         </tbody>
                     </table>

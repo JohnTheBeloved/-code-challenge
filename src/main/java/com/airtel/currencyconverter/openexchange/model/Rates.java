@@ -2,7 +2,6 @@
 package com.airtel.currencyconverter.openexchange.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,7 +114,7 @@ public class Rates {
 	}
 
 	//TODO: Test this
-	public List<Exchange> toExchanges(List<Currency> currencies, Date date) {
+	public List<Exchange> toExchanges(List<Currency> currencies, String date) {
 		ArrayList<Exchange> exchanges = new ArrayList<>();
 		for (Currency currency : currencies) {
 			switch (currency.getCode()) {

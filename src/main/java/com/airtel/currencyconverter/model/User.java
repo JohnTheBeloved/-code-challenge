@@ -1,6 +1,10 @@
 package com.airtel.currencyconverter.model;
 
+import java.util.Set;
+
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,17 +21,21 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
-	@NotEmpty
+	@NotEmpty(message = "Please should not be empty")
 	@Email(message = "Please enter a valid email")
 	private String email;
 	private String password;
-	private String passwordConfirmation; //FIXEME: Create seperate register model
+	private String passwordConfirmation; //FIXEME: Create separate register model
 	@NotEmpty
 	@Size(min = 5, message = "Firstname should be at least 5 characters")
 	private String firstName;
 	@NotEmpty
-	@Size(min = 5, message = "Firstname should be at least 5 characters")
+	@Size(min = 5, message = "Lastname should be at least 5 characters")
 	private String lastName;
+
+	@ElementCollection
+	@CollectionTable(name = "tags")
+	private Set<String> queries;
 
 	@Column(name = "email", nullable = false)
 	public String getEmail() {
@@ -72,6 +80,14 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public Set<String> getQueries() {
+		return queries;
+	}
+
+	public void setQueries(Set<String> queries) {
+		this.queries = queries;
 	}
 
 }

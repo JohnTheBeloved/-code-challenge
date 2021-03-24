@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.airtel.currencyconverter.model.Currency;
 import com.airtel.currencyconverter.model.Exchange;
+import com.airtel.currencyconverter.util.DateUtils;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -97,7 +98,7 @@ public class ExchangeHistory {
 	}
 
 	public List<Exchange> currencyExchanges(List<Currency> currencies) {
-		return rates.toExchanges(currencies, new Date(getTimestamp()));
+		return rates.toExchanges(currencies, DateUtils.format(new Date(getTimestamp())));
 	}
 
 }

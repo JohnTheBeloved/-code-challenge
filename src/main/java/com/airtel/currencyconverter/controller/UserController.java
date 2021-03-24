@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.airtel.currencyconverter.model.Auth;
+import com.airtel.currencyconverter.controller.form.AuthForm;
 import com.airtel.currencyconverter.model.User;
 import com.airtel.currencyconverter.service.UserService;
 
@@ -39,12 +39,12 @@ public class UserController {
 
 	@GetMapping("/login")
 	public String login(Model model) {
-		model.addAttribute("loginForm", new Auth());
+		model.addAttribute("loginForm", new AuthForm());
 		return "login";
 	}
 
 	@PostMapping("/login")
-	public String login(@ModelAttribute("loginForm") Auth auth, Model model) {
+	public String login(@ModelAttribute("loginForm") AuthForm auth, Model model) {
 		return "home";
 	}
 

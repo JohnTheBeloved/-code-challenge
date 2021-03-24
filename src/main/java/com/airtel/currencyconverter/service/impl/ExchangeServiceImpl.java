@@ -41,4 +41,9 @@ public class ExchangeServiceImpl implements ExchangeService {
 		return noToSave == noSaved;
 	}
 
+	@Override
+	public List<Exchange> getDateExchanges(String date) {
+		return exchangeRepository.findByDate(date);
+	}
+
 }

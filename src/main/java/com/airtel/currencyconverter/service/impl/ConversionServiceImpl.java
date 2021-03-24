@@ -43,4 +43,10 @@ public class ConversionServiceImpl implements ConversionService {
 		return noToSave == noSaved;
 	}
 
+	@Override
+	public Float create(String currencyCode, Float amount) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

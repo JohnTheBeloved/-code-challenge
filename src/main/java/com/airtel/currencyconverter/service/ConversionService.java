@@ -15,4 +15,6 @@ public interface ConversionService {
 
 	boolean save(List<Conversion> currencies);
 
+	Float create(String currencyCode, Float amount);
+
 }

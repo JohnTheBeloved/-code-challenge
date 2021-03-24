@@ -1,9 +1,5 @@
 package com.airtel.currencyconverter.model;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Date;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,16 +20,16 @@ public class Exchange {
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "currency_id", referencedColumnName = "id")
 	private Currency currency;
-	private ZonedDateTime date;
+	private String exchangeDate;
 	private Double rate;
 
 	public Exchange() {
 
 	}
 
-	public Exchange(Currency currency, Date date, Double rate) {
+	public Exchange(Currency currency, String exchangeDate, Double rate) {
 		this.currency = currency;
-		this.date = ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+		this.exchangeDate = exchangeDate;
 		this.rate = rate;
 	}
 
@@ -54,12 +50,12 @@ public class Exchange {
 	}
 
 	@Column(name = "exchange_date", nullable = false)
-	public ZonedDateTime getDate() {
-		return this.date;
+	public String getExchangeDate() {
+		return exchangeDate;
 	}
 
-	public void setDate(ZonedDateTime date) {
-		this.date = date;
+	public void setDate(String exchangeDate) {
+		this.exchangeDate = exchangeDate;
 	}
 
 	@Column(name = "rate", nullable = false)
