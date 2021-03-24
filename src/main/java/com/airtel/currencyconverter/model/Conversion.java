@@ -1,10 +1,13 @@
 package com.airtel.currencyconverter.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,8 +17,14 @@ public class Conversion {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "currency_from_id", referencedColumnName = "id")
 	private Currency currencyFrom;
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JoinColumn(name = "currency_to_id", referencedColumnName = "id")
 	private Currency currencyTo;
 	private Float amountFrom;
 	private Float amountTo;
@@ -46,7 +55,6 @@ public class Conversion {
 		this.user = user;
 	}
 
-	@Column(name = "currency_from", nullable = false)
 	public Currency getCurrencyFrom() {
 		return this.currencyFrom;
 	}
@@ -55,7 +63,6 @@ public class Conversion {
 		this.currencyFrom = currencyFrom;
 	}
 
-	@Column(name = "currency_to", nullable = false)
 	public Currency getCurrencyTo() {
 		return this.currencyTo;
 	}

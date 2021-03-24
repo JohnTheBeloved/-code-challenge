@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.airtel.currencyconverter.model.Currency;
@@ -20,6 +21,7 @@ import com.airtel.currencyconverter.openexchange.model.ExchangeHistory;
 import com.airtel.currencyconverter.service.CurrencyService;
 import com.airtel.currencyconverter.service.ExchangeService;
 
+@Service
 public class OpenExchangeService {
 
 	private static Logger logger = LoggerFactory.getLogger(OpenExchangeService.class);
@@ -52,14 +54,15 @@ public class OpenExchangeService {
 	}
 
 	public void createCurrencies() {
-		Currency euro = new Currency("Euro", "EUR");
-		Currency usDollar = new Currency("US Dollar", "USD");
-		Currency pound = new Currency("British Pound", "GBP");
-		Currency nzDollar = new Currency("New Zealand Dollar", "NZD");
-		Currency auDollar = new Currency("Austriallian Dollar", "AUD");
-		Currency yen = new Currency("Japanese Yen", "JPY");
-		Currency forint = new Currency("Hungarian Forint ", "HUF");
+		Currency euro = new Currency("Euro", "Europe", "EUR");
+		Currency usDollar = new Currency("US Dollar", "Nigeria", "USD");
+		Currency pound = new Currency("British Pound", "United Kingdom", "GBP");
+		Currency nzDollar = new Currency("New Zealand Dollar", "New Zealand", "NZD");
+		Currency auDollar = new Currency("Austriallian Dollar", "Austrialia", "AUD");
+		Currency yen = new Currency("Japanese Yen", "Japan", "JPY");
+		Currency forint = new Currency("Hungarian Forint ", "Hungary", "HUF");
 		List<Currency> currencies = Arrays.asList(euro, usDollar, pound, nzDollar, auDollar, yen, forint);
+		logger.info("Creating %s currencies for exchange rate conversion", currencies.size());
 		currencyService.save(currencies);
 	}
 
@@ -72,8 +75,8 @@ public class OpenExchangeService {
 			ExchangeHistory exchangeHistory = response.getBody();
 			List<Currency> currencies = currencyService.get();
 			List<Exchange> exchanges = exchangeHistory.currencyExchanges(currencies);
+			logger.info("Creating %s exchange rates for %s currencies", exchanges.size(), currencies.size());
 			exchangeService.save(exchanges);
-
 		} else {
 			logger.error("Unable to get latest exchange rate at this time");
 		}

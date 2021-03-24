@@ -32,7 +32,7 @@ public class ExchangeHistory {
 	@JsonProperty("base")
 	private String base;
 	@JsonProperty("rates")
-	private Rates rates;// TODO: use hashmap instead
+	private Rates rates;// TODO: use hashmap instead //private Map<String, Double> rates = new HashMap<>();
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 

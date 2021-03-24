@@ -21,8 +21,9 @@ public class Currency {
 	public Currency() {
 	}
 
-	public Currency(String name, String code) {
+	public Currency(String name, String country, String code) {
 		this.name = name;
+    this.country = country;
 		this.code = code;
 	}
 
