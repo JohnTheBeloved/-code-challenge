@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Welcome - Airtel currency converter</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="body-content">
+        <div class="row">
+            <div class="medium-12 columns">
+                <h2>
+                    App IDs
+                </h2>
+                <p>
+                    Here are the active App IDs for your account, which you can currently use to access the Open Exchange Rates API. You can add and remove App IDs or expire old ones.
+                </p>
+            </div>
+        </div>
+        <section id="messages">
+            <div class="callout alert">
+                We have recently increased the number of active App IDs available with our Free Plan to 2, in order to enable you to replace the App ID in your integration without any downtime, should you wish to. Your monthly request allowance is not affected, and all
+                App IDs on your account contribute towards your usage quota.
+            </div>
+        </section>
+        <br>
+        <div class="row">
+            <div class="medium-12 columns">
+                <div class="table-scroll">
+                    <table id="app-ids">
+                        <thead>
+                            <tr>
+                                <th style="width:20%">
+                                    USD Exchange History
+                                </th>
+                                <th>
+                                    EUR
+                                </th>
+                                <th>
+                                    GBP
+                                </th>
+                                <th>
+                                    NZD
+                                </th>
+                                <th>
+                                    AUD
+                                </th>
+                                <th>
+                                    JPY
+                                </th>
+                                <th>
+                                    HUF
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> <span th:text="${latest.date}"></span>(Latest)</td>
+                                <td th:each="exchange : ${#latest.exchangeRates}" th:text="${exchange.rate}" class="monospace"> </td>
+                            </tr>
+                            <tr th:each="exchangeHistory : ${#exchangeHistories}">
+                                <td th:text="${exchangeHistory.date}"> </td>
+                                <td th:each="exchange : ${#exchangeHistory.exchangeRates}" th:text="${exchange.rate}" class="monospace"> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
