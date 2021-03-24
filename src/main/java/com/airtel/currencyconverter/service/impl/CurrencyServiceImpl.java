@@ -36,10 +36,9 @@ public class CurrencyServiceImpl implements CurrencyService {
 		//TODO: Check if currency exists in DB
 		int noToSave = currencies.size();
 		int noSaved = 0;
-		for (Currency currency : currencies) {
-			List<Currency> saved = currencyRepository.saveAll(currencies);
-			noSaved = saved.size();
-		}
+		currencyRepository.deleteAll();
+		List<Currency> saved = currencyRepository.saveAll(currencies);
+		noSaved = saved.size();
 		return noToSave == noSaved;
 	}
 

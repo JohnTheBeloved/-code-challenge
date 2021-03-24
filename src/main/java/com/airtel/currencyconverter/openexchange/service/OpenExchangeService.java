@@ -2,8 +2,6 @@ package com.airtel.currencyconverter.openexchange.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -19,8 +17,8 @@ import org.springframework.web.client.RestTemplate;
 import com.airtel.currencyconverter.model.Currency;
 import com.airtel.currencyconverter.model.Exchange;
 import com.airtel.currencyconverter.openexchange.model.ExchangeHistory;
-import com.airtel.currencyconverter.openexchange.model.Rates;
 import com.airtel.currencyconverter.service.CurrencyService;
+import com.airtel.currencyconverter.service.ExchangeService;
 
 public class OpenExchangeService {
 
@@ -32,10 +30,7 @@ public class OpenExchangeService {
 	@Value("${openexchange.apipath.base}")
 	private String basePath;
 
-	@Value("${openexchange.apipath.historical}")
-	private String exchangeHistoryPath;
-
-	@Value("${openexchange.apipath.historical}")
+	@Value("${openexchange.apipath.latest}")
 	private String latestExchangePath;
 
 	@Autowired
@@ -44,13 +39,16 @@ public class OpenExchangeService {
 	@Autowired
 	private CurrencyService currencyService;
 
+	@Autowired
+	private ExchangeService exchangeService;
+
 	String pattern = "yyyy-MM-dd";
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
 	@PostConstruct
 	public void init() {
 		createCurrencies();
-		pullExchangeHistory();
+		pullLatestExchangeRates();
 	}
 
 	public void createCurrencies() {
@@ -65,27 +63,20 @@ public class OpenExchangeService {
 		currencyService.save(currencies);
 	}
 
-	public void pullExchangeHistory() {
-		String url = String.format("%s/%s/%s.json?app_id=%s", basePath, exchangeHistoryPath, getPreviousTenthDate(), appId);
+	public void pullLatestExchangeRates() {
+		String url = String.format("%s/%s?app_id=%s", basePath, latestExchangePath, appId);
 		logger.trace("Calling %s", url);
 		logger.info("Fetching last of ten currency exchange historyfrom openexchange...");
 		ResponseEntity<ExchangeHistory> response = restTemplate.getForEntity(url, ExchangeHistory.class);
 		if (response.getStatusCode() == HttpStatus.OK) {
 			ExchangeHistory exchangeHistory = response.getBody();
 			List<Currency> currencies = currencyService.get();
-			 List<Exchange> exchanges = exchangeHistory.currencyExchanges(currencies);
-			 ex
-			 
-				 
-		}
-	}
+			List<Exchange> exchanges = exchangeHistory.currencyExchanges(currencies);
+			exchangeService.save(exchanges);
 
-	private String getPreviousTenthDate() {
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		calendar.add(Calendar.DAY_OF_MONTH, 10);
-		String date = simpleDateFormat.format(calendar.getTime());
-		return date;
+		} else {
+			logger.error("Unable to get latest exchange rate at this time");
+		}
 	}
 
 }
