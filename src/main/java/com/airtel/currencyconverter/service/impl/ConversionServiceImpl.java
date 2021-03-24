@@ -10,6 +10,7 @@ import com.airtel.currencyconverter.model.Conversion;
 import com.airtel.currencyconverter.repository.ConversionRepository;
 import com.airtel.currencyconverter.service.ConversionService;
 
+// TODO: remove this class
 @Service
 public class ConversionServiceImpl implements ConversionService {
 
@@ -36,10 +37,8 @@ public class ConversionServiceImpl implements ConversionService {
 		//TODO: Check if exchange exists in DB
 		int noToSave = exchanges.size();
 		int noSaved = 0;
-		for (Conversion exchange : exchanges) {
-			List<Conversion> saved = exchangeRepository.saveAll(exchanges);
-			noSaved = saved.size();
-		}
+		List<Conversion> saved = exchangeRepository.saveAll(exchanges);
+		noSaved = saved.size();
 		return noToSave == noSaved;
 	}
 

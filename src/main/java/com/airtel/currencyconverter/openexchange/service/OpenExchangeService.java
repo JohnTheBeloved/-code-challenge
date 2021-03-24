@@ -35,6 +35,9 @@ public class OpenExchangeService {
 	@Value("${openexchange.apipath.latest}")
 	private String latestExchangePath;
 
+	@Value("${openexchange.apipath.historical}")
+	private String historicalExchangePath;
+
 	@Autowired
 	private RestTemplate restTemplate;
 
@@ -50,7 +53,7 @@ public class OpenExchangeService {
 	@PostConstruct
 	public void init() {
 		createCurrencies();
-		pullLatestExchangeRates();
+		pullDateExchangeRates("latest");
 	}
 
 	public void createCurrencies() {
@@ -66,8 +69,10 @@ public class OpenExchangeService {
 		currencyService.save(currencies);
 	}
 
-	public void pullLatestExchangeRates() {
-		String url = String.format("%s/%s?app_id=%s", basePath, latestExchangePath, appId);
+	public void pullDateExchangeRates(String date) {
+		String url = date == null || date == "latest"
+			? String.format("%s/%s?app_id=%s", basePath, latestExchangePath, appId)
+			: String.format("%s/%s/%s.json?app_id=%s", basePath, historicalExchangePath, date, appId);
 		logger.trace("Calling %s", url);
 		logger.info("Fetching last of ten currency exchange historyfrom openexchange...");
 		ResponseEntity<ExchangeHistory> response = restTemplate.getForEntity(url, ExchangeHistory.class);
@@ -75,10 +80,15 @@ public class OpenExchangeService {
 			ExchangeHistory exchangeHistory = response.getBody();
 			List<Currency> currencies = currencyService.get();
 			List<Exchange> exchanges = exchangeHistory.currencyExchanges(currencies);
+			if (date == "latest") {
+				for (Exchange exchange : exchanges) {
+					exchange.setDate("latest");
+				}
+			}
 			logger.info("Creating %s exchange rates for %s currencies", exchanges.size(), currencies.size());
 			exchangeService.save(exchanges);
 		} else {
-			logger.error("Unable to get latest exchange rate at this time");
+			logger.error("Unable to get exchange rates at this time");
 		}
 	}
 

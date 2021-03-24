@@ -21,8 +21,7 @@
         </div>
         <section id="messages">
             <div class="callout alert">
-                We have recently increased the number of active App IDs available with our Free Plan to 2, in order to enable you to replace the App ID in your integration without any downtime, should you wish to. Your monthly request allowance is not affected, and all
-                App IDs on your account contribute towards your usage quota.
+                Showing currency Exchange Rates for <span th:text="${queryForm.date}"></span>
             </div>
         </section>
         <br>
@@ -30,6 +29,7 @@
             <div class="medium-12 columns">
                 <div class="table-scroll">
                     <form th:action="@{/home}" th:object="${queryForm}" method="post">
+                        Select Date
                         <input type="date" th:value="${queryForm.date}">
                         <a th:each="date : ${queryForm.queryHistory}" href="@{/home/{queryForm.date}}" th:text="date"></a>
                     </form>

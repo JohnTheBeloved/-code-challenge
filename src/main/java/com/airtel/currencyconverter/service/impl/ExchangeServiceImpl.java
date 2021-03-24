@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.airtel.currencyconverter.exception.ResourceNotFoundException;
 import com.airtel.currencyconverter.model.Exchange;
+import com.airtel.currencyconverter.openexchange.service.OpenExchangeApiService;
 import com.airtel.currencyconverter.repository.ExchangeRepository;
 import com.airtel.currencyconverter.service.ExchangeService;
 
@@ -15,6 +16,9 @@ public class ExchangeServiceImpl implements ExchangeService {
 
 	@Autowired
 	private ExchangeRepository exchangeRepository;
+
+	@Autowired
+	private OpenExchangeApiService openExchangeApiService;
 
 	public Exchange create(Exchange exchange) {
 		Exchange saved = exchangeRepository.save(exchange);
@@ -43,7 +47,15 @@ public class ExchangeServiceImpl implements ExchangeService {
 
 	@Override
 	public List<Exchange> getDateExchanges(String date) {
-		return exchangeRepository.findByDate(date);
+		if (date == null) {
+			date = "latest";
+		}
+		List<Exchange> exchanges = exchangeRepository.findByDate(date);
+		if (exchanges.isEmpty()) {
+			openExchangeApiService.pullDateExchangeRates(date);
+			exchanges = exchangeRepository.findByDate(date);
+		}
+		return exchanges;
 	}
 
 }
