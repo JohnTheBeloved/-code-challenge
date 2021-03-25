@@ -11,5 +11,5 @@ import com.airtel.currencyconverter.model.Exchange;
 @Repository
 public interface ExchangeRepository extends JpaRepository<Exchange, Long> {
 
-	public List<Exchange> findByDate(String date);
+	public List<Exchange> findByExchangeDate(String date);
 }

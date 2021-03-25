@@ -2,17 +2,19 @@ package com.airtel.currencyconverter.service;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import com.airtel.currencyconverter.controller.form.QueryForm;
 import com.airtel.currencyconverter.exception.ResourceNotFoundException;
 import com.airtel.currencyconverter.model.User;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
 	User create(User User);
 
-	List<User> get();
+	User update(User User);
 
-	User getByEmailAndPassword(String email, String password) throws ResourceNotFoundException;
+	List<User> get();
 
 	void delete(Long id) throws ResourceNotFoundException;
 

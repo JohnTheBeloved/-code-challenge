@@ -8,33 +8,56 @@
 </head>
 
 <body>
+    <a href="/logout"> Logout </a>
     <div class="body-content">
         <div class="row">
             <div class="medium-12 columns">
                 <h2>
-                    App IDs
+                    Airtel Currency Exchange App
                 </h2>
                 <p>
-                    Here are the active App IDs for your account, which you can currently use to access the Open Exchange Rates API. You can add and remove App IDs or expire old ones.
                 </p>
             </div>
         </div>
-        <section id="messages">
-            <div class="callout alert">
-                Showing currency Exchange Rates for <span th:text="${queryForm.date}"></span>
-            </div>
-        </section>
-        <br>
+        <div class="row">
+            <section id="messages">
+                <div class="callout alert">
+                    Showing currency Exchange Rates for <span th:text="${queryForm.date}"></span>
+                </div>
+            </section>
+            <br>
+        </div>
         <div class="row">
             <div class="medium-12 columns">
                 <div class="table-scroll">
                     <form th:action="@{/home}" th:object="${queryForm}" method="post">
-                        Select Date
-                        <input type="date" th:value="${queryForm.date}">
-                        <a th:each="date : ${queryForm.queryHistory}" href="@{/home/{queryForm.date}}" th:text="date"></a>
+
+                        <div class="row">
+                            <div class="large-5 columns">
+                                <label for="email">Select Date*:</label>
+                            </div>
+                            <div class="large-14 columns ">
+                                <input th:field="*{date}" type="date" th:value="${queryForm.date}">
+                            </div>
+                            <div class="large-2 columns end">
+                                <button type="submit" value="Submit">Submit</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-24 columns">
+                                <label>Last 10 Queries :</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div th:each="date : ${queryForm.queryHistory}" class="large-6 columns " style="padding-left: 2px;">
+                                <a th:href="@{'/home?date=' + ${date}}" th:text="${date}"></a>
+                            </div>
+                        </div>
                     </form>
+
                     <table id="app-ids">
                         <thead>
+
                             <tr>
                                 <th style="width:20%">
                                     Exchange Currency
@@ -50,7 +73,7 @@
                         <tbody>
                             <tr th:each="exchangeRate : ${exchangeRates}">
                                 <td class="monospace" th:text="${exchangeRate.currency.name}"> </td>
-                                <td class="monospace" th:text="${exchangeRate.date}"> </td>
+                                <td class="monospace" th:text="${exchangeRate.exchangeDate}"> </td>
                                 <td class="monospace" th:text="${exchangeRate.rate}"> </td>
                             </tr>
                         </tbody>

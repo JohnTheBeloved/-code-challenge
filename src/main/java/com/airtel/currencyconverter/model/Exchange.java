@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,7 +17,7 @@ public class Exchange {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
-	@OneToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "currency_id", referencedColumnName = "id")
 	private Currency currency;
 	private String exchangeDate;
@@ -54,7 +54,7 @@ public class Exchange {
 		return exchangeDate;
 	}
 
-	public void setDate(String exchangeDate) {
+	public void setExchangeDate(String exchangeDate) {
 		this.exchangeDate = exchangeDate;
 	}
 

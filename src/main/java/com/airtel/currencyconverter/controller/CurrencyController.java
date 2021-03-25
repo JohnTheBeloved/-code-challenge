@@ -40,7 +40,11 @@ public class CurrencyController {
 
 	@PostMapping("/home")
 	public String convert(@Valid @ModelAttribute("queryForm") QueryForm queryFormInput, Model model) {
-		model.addAttribute("queryForm", userService);
+		QueryForm queryForm = userService.getQueryForm();
+		queryForm.setDate(queryFormInput.getDate());
+		List<Exchange> exchangeRates = exchangeService.getDateExchanges(queryFormInput.getDate());
+		model.addAttribute("queryForm", queryFormInput);
+		model.addAttribute("exchangeRates", exchangeRates);
 		return "home";
 	}
 

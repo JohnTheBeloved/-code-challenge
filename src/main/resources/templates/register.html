@@ -52,13 +52,17 @@
                     </p>
                     <br>
                     <form th:action="@{/register}" th:object="${registrationForm}" method="post">
-                        <div th:if="${#fields.hasErrors('*')}" class="row">
+                        <div class="row">
                             <div class="large-24 columns">
-                                <p class="clearfix alert-box alert alert-error radius" style="text-align:left">
-                                    <strong>Please check and correct the following:</strong>
-                                    <br>
-                                    <span th:each="error : ${#fields.detailedErrors()}" th:text="${e.global}? '*' : ${e.fieldName}" />
+                                <br>
+                                <p th:if="${#fields.hasErrors('*')}" class="clearfix alert-box alert alert-error radius" style="text-align:left">
+                                    <strong>Please check and correct the following:</strong></br>
+                                    <span th:if="${#fields.hasErrors('firstName')}"><span th:errors="*{firstName}" /></br></span>
+                                    <span th:if="${#fields.hasErrors('lastName')}"><span th:errors="*{lastName}" /></br></span>
+                                    <span th:if="${#fields.hasErrors('email')}"><span th:errors="*{email}" /></br></span>
+                                    <span th:if="${#fields.hasErrors('password')}"><span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" /></br></span>
                                 </p>
+
                             </div>
                         </div>
                         <div class="row">

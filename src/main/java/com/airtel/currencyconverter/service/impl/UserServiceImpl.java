@@ -1,12 +1,16 @@
 package com.airtel.currencyconverter.service.impl;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.airtel.currencyconverter.controller.form.QueryForm;
@@ -17,6 +21,8 @@ import com.airtel.currencyconverter.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+	private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	String pattern = "yyyy-MM-dd";
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -29,13 +35,14 @@ public class UserServiceImpl implements UserService {
 		return saved;
 	}
 
-	public List<User> get() {
-		return userRepository.findAll();
+	public User update(User user) {
+		User saved = userRepository.save(user);
+		return saved;
 	}
 
-	public User getByEmailAndPassword(String email, String password) throws ResourceNotFoundException {
-		return Optional.of(userRepository.findByEmailAndPassword(email, password))
-			.orElseThrow(() -> new ResourceNotFoundException("username or password not correct :: " + email));
+
+	public List<User> get() {
+		return userRepository.findAll();
 	}
 
 	public void delete(Long userId) throws ResourceNotFoundException {
@@ -46,19 +53,20 @@ public class UserServiceImpl implements UserService {
 	public QueryForm getQueryForm() {
 		QueryForm queryForm = new QueryForm();
 		queryForm.setDate(simpleDateFormat.format(new Date()));
-		queryForm.setQueryHistory(
-			Arrays.asList(
-				"2020-03-02",
-				"2020-05-05",
-				"2020-06-15",
-				"2020-06-22",
-				"2020-06-21",
-				"2020-06-20",
-				"2020-06-19",
-				"2020-06-18",
-				"2020-06-17",
-				"2020-06-16"));
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		user.getQueries().remove("latest");
+		queryForm.setQueryHistory(new ArrayList<String>(user.getQueries()));
 		return queryForm;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		logger.error("Finding users with %s", username);
+		User user = userRepository.findByEmail(username);
+		if (user == null)
+			throw new UsernameNotFoundException("User not found");
+		logger.error("Found User ", username);
+		return user;
 	}
 
 }
