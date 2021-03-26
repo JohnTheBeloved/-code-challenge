@@ -10,19 +10,19 @@ Two basic features
  - Perform a new Conversion
 
  ### Requirements Checklist
-  [x] Integrstion with openexchange
-  [x] Registration Page
-  [x] Login Page
-  [x] Main screen
-  [x] Query History
-  [x] Main currencies (EUR, USD, GBP, NZD, AUD, JPY, HUF) and Naira
-  [x] Spring MVC
-  [x] JPA
-  [x] Fields - Firstname, Lastname, email, password, date of birth and address
-  [x] Integration tests (1, covers the conversion method)
-  [x] REST API - `/conversion` OpenAPI doc available
-  [] Caching 
-  [] JMX setup
+-  [x] Integrstion with openexchange
+-  [x] Registration Page
+-  [x] Login Page
+-  [x] Main screen
+-  [x] Query History
+-  [x] Main currencies (EUR, USD, GBP, NZD, AUD, JPY, HUF) and Naira
+-  [x] Spring MVC
+-  [x] JPA
+-  [x] Fields - Firstname, Lastname, email, password, date of birth and address
+-  [x] Integration tests (1, covers the conversion method)
+-  [x] REST API - `/conversion` OpenAPI doc available
+-  [ ] Caching 
+-  [ ] JMX setup
 
 ## Developer? 
 ### Technologies  used
