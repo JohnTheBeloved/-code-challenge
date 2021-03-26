@@ -57,7 +57,7 @@
                             </div>
                             <div class="large-11 columns ">
                                 <select th:field="*{currency}">
-                                    <option th:each="c : ${queryForm.currencies}" th:value="${c.getCode()}" th:text="${c.getName()}"></option>
+                                    <option th:each="c : ${queryForm.currencies}" th:value="${c.getCode()}" th:text="${c.getName()}" th:selected="${c.getCode().equals(currency)}"></option>
                                 </select>
                             </div>
                         </div>
@@ -86,10 +86,10 @@
                             <div class="large-24 columns ">
                                 <label>Last 10 Queries :</label>
                             </div>
-                            <div th:each="date : ${queryForm.conversions} " class="large-6 columns " style="padding-left: 2px; ">
-                                You converted <span th:text="${conversion.amountFrom}" /> dollar(s) for <a th:href="@{ '/home?date=' + ${date}} " th:text="${date} "></a> to <span th:text="${conversion.amountTo}" > <span th:text="${conversion.currencyTo.name}" />
+                            <li th:each="conversion : ${queryForm.conversions} " class="large-24 columns " style="padding-left: 2px; ">
+                                <span>You converted <span th:text="${conversion.getAmountFrom()}" /> dollar(s) for <a th:href="@{'/home?date=' + ${conversion.getExchangeDate()}}" th:text="${conversion.getExchangeDate()} "></a> to <span th:text="${conversion.getAmountTo()}" /> <span th:text="${conversion.getCurrencyTo().getName()}" /></span>
+                                </li>
                             </div>
-                        </div>
                     </form>
 
                     <table id="app-ids ">
@@ -108,21 +108,21 @@
                                 <th>
                                     <span th:text="${queryForm.amount}"> USD</span>
                                 </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="exchangeRate : ${exchangeRates} ">
-                                        <td class="monospace " th:text="${exchangeRate.currency.name} "> </td>
-                                        <td class="monospace " th:text="${exchangeRate.exchangeDate} "> </td>
-                                        <td class="monospace " th:text="${exchangeRate.rate} "> </td>
-                                        <td class="monospace " th:text="${exchangeRate.result} "> </td>
-                                    </tr>
-                                </tbody>
-                                </table>
-                            </div>
-                        </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="exchangeRate : ${exchangeRates} ">
+                                <td class="monospace " th:text="${exchangeRate.currency.name} "> </td>
+                                <td class="monospace " th:text="${exchangeRate.exchangeDate} "> </td>
+                                <td class="monospace " th:text="${exchangeRate.rate} "> </td>
+                                <td class="monospace " th:text="${exchangeRate.result} "> </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
                 </div>
             </div>
+        </div>
 </body>
 
 </html>

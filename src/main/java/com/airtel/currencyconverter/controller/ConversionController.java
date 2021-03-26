@@ -55,6 +55,7 @@ public class ConversionController {
 				queryForm.setDate(queryFormInput.getDate());
 				queryForm.setAmount(queryFormInput.getAmount());
 				queryForm.setResult(conversion.getAmountTo());
+				queryForm.setCurrency(queryFormInput.getCurrency());
 				exchangeRates = exchangeService.getDateExchanges(queryFormInput.getDate(), queryForm.amount);
 			} else {
 				exchangeRates = exchangeService.getDateExchanges(queryFormInput.getDate());

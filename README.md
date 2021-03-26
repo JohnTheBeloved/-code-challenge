@@ -35,7 +35,7 @@ Two basic features
   * Database used is H2, No setup required, will create a local file named `testdb.mv.db` when application starts, Ensure you have a write access to current directory
 
 ### Building the Server and App
-  * Clone this repository ` git clone https://github.com/JohnTheBeloved/.git`
+  * Clone this repository `git clone https://github.com/JohnTheBeloved/airtel-code-challenge.git`
   * cd into project folder `cd airtel-code-challenge`
   * compile  : `mvn compile`
   * Run tests: `mvn test`
@@ -59,5 +59,10 @@ Two basic features
  - Upon succesful login, the home page is then displayed where you can see your previous conversions and also perform currency conversions
  - To logout of the application, click on the logout link at the top left corner
  - Yes, that's it. That all :) Thanks. Or if we have [more time](https://www.youtube.com/watch?v=sy0fIyongdI), we can add more features
+
+ ### Deeper Dive
+  - The currencies are provisioned when the application begins
+  - If currencies exist, the `application.properties` value `currencies.recreate` is checked to see the existing currency should be deleted and all currencies recreated
+  - 
 
 

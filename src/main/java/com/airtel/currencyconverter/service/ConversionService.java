@@ -13,8 +13,9 @@ public interface ConversionService {
 
 	void delete(Long id) throws ResourceNotFoundException;
 
-	boolean save(List<Conversion> currencies);
+	boolean save(List<Conversion> conversions);
 
 	Conversion create(String currencyCode, String date, Float amountFrom) throws ResourceNotFoundException;
 
+	List<Conversion> getLast10(Long userId);
 }

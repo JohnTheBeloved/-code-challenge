@@ -32,7 +32,7 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
-	@NotEmpty(message = "Please should not be empty")
+	@NotEmpty(message = "Please email should not be empty")
 	@Email(message = "Please enter a valid email")
 	private String email;
 	@Size(min = 8, message = "Password should be at least 8 characters")
@@ -46,7 +46,6 @@ public class User implements UserDetails {
 	@Size(min = 3, message = "Lastname should be at least 5 characters")
 	private String lastName;
 
-	@NotEmpty
 	@Size(min = 3, message = "Please select a Date of Birth")
 	private String dateOfBirth;
 	@NotEmpty
@@ -67,6 +66,14 @@ public class User implements UserDetails {
 	@OneToMany
 	@JoinTable(name = "user_conversion")
 	private Set<Conversion> conversions;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	@Column(name = "email", nullable = false, unique = true)
 	public String getEmail() {

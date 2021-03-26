@@ -39,6 +39,9 @@ public class OpenExchangeApiService {
 	@Value("${openexchange.apipath.historical}")
 	private String historicalExchangePath;
 
+	@Value("${currencies.recreate}")
+	private Boolean recreateCurrencies;
+
 	@Autowired
 	private RestTemplate restTemplate;
 
@@ -58,7 +61,7 @@ public class OpenExchangeApiService {
 	}
 
 	public void createCurrencies() {
-		if(currencyService.get().isEmpty()) {
+		if(currencyService.get().isEmpty() || recreateCurrencies) {
 			Currency euro = new Currency("Euro", "Europe", "EUR");
 			Currency usDollar = new Currency("US Dollar", "United States", CurrencyUtil.DOLLAR);
 			Currency pound = new Currency("British Pound", "United Kingdom", "GBP");
@@ -69,7 +72,7 @@ public class OpenExchangeApiService {
 			Currency naira = new Currency("Naira ", "Nigeria", "NGN");
 			List<Currency> currencies = Arrays.asList(euro, usDollar, pound, nzDollar, auDollar, yen, forint, naira);
 			logger.info("Creating %s currencies for exchange rate conversion", currencies.size());
-			currencyService.save(currencies);
+			currencyService.save(currencies, recreateCurrencies);
 		}
 	}
 

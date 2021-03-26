@@ -17,6 +17,6 @@ public interface CurrencyService {
 
 	void delete(Long id) throws ResourceNotFoundException;
 
-	boolean save(List<Currency> currencies);
+	boolean save(List<Currency> currencies, boolean deleteExisting);
 
 }

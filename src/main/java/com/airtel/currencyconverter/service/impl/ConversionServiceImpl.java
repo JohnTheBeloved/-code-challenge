@@ -21,7 +21,7 @@ import com.airtel.currencyconverter.service.ExchangeService;
 public class ConversionServiceImpl implements ConversionService {
 
 	@Autowired
-	private ConversionRepository exchangeRepository;
+	private ConversionRepository conversionRepository;
 
 	@Autowired
 	private CurrencyService currencyService;
@@ -30,18 +30,18 @@ public class ConversionServiceImpl implements ConversionService {
 	private ExchangeService exchangeService;
 
 	public Conversion create(Conversion exchange) {
-		Conversion saved = exchangeRepository.save(exchange);
+		Conversion saved = conversionRepository.save(exchange);
 		return saved;
 	}
 
 	public List<Conversion> get() {
-		return exchangeRepository.findAll();
+		return conversionRepository.findAll();
 	}
 
 	public void delete(Long exchangeId) throws ResourceNotFoundException {
-		Conversion signal =
-			exchangeRepository.findById(exchangeId).orElseThrow(() -> new ResourceNotFoundException("Signal not found for this id :: " + exchangeId));
-		exchangeRepository.delete(signal);
+		Conversion signal = conversionRepository.findById(exchangeId)
+			.orElseThrow(() -> new ResourceNotFoundException("Signal not found for this id :: " + exchangeId));
+		conversionRepository.delete(signal);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class ConversionServiceImpl implements ConversionService {
 		//TODO: Check if exchange exists in DB
 		int noToSave = exchanges.size();
 		int noSaved = 0;
-		List<Conversion> saved = exchangeRepository.saveAll(exchanges);
+		List<Conversion> saved = conversionRepository.saveAll(exchanges);
 		noSaved = saved.size();
 		return noToSave == noSaved;
 	}
@@ -67,6 +67,11 @@ public class ConversionServiceImpl implements ConversionService {
 		conversion.setAmountTo(amountTo);
 		create(conversion);
 		return conversion;
+	}
+
+	@Override
+	public List<Conversion> getLast10(Long userId) {
+		return conversionRepository.findByUserId(userId);
 	}
 
 }

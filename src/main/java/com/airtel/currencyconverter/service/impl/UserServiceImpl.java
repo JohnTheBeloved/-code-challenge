@@ -19,6 +19,7 @@ import com.airtel.currencyconverter.exception.ResourceNotFoundException;
 import com.airtel.currencyconverter.model.Currency;
 import com.airtel.currencyconverter.model.User;
 import com.airtel.currencyconverter.repository.UserRepository;
+import com.airtel.currencyconverter.service.ConversionService;
 import com.airtel.currencyconverter.service.CurrencyService;
 import com.airtel.currencyconverter.service.UserService;
 import com.airtel.currencyconverter.util.CurrencyUtil;
@@ -36,6 +37,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private CurrencyService currencyService;
+
+	@Autowired
+	private ConversionService conversionService;
 
 	public User create(User user) {
 		User saved = userRepository.save(user);
@@ -66,6 +70,8 @@ public class UserServiceImpl implements UserService {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		user.getQueries().remove("latest");
 		queryForm.setQueryHistory(new ArrayList<String>(user.getQueries()));
+		queryForm.setConversions(conversionService.getLast10(user.getId()));
+		System.out.println("Last to is " + conversionService.getLast10(user.getId()).size());
 		return queryForm;
 	}
 

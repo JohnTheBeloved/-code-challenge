@@ -33,10 +33,10 @@ public class CurrencyServiceImpl implements CurrencyService {
 	}
 
 	@Override
-	public boolean save(List<Currency> currencies) {
-		//TODO: Check if currency exists in DB
+	public boolean save(List<Currency> currencies, boolean deleteExisting) {
 		int noToSave = currencies.size();
 		int noSaved = 0;
+		if(deleteExisting)
 		currencyRepository.deleteAll();
 		List<Currency> saved = currencyRepository.saveAll(currencies);
 		noSaved = saved.size();
