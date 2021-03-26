@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -17,7 +18,7 @@ public class Conversion {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
-	@OneToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 	@OneToOne(cascade = CascadeType.MERGE)
@@ -28,14 +29,16 @@ public class Conversion {
 	private Currency currencyTo;
 	private Float amountFrom;
 	private Float amountTo;
+	private String exchangeDate;
 
 	public Conversion() {
 	}
 
-	public Conversion(Currency currencyFrom, Currency currencyTo, Float amountFrom) {
+	public Conversion(Currency currencyFrom, Currency currencyTo, Float amountFrom, Float amountTo) {
 		this.currencyFrom = currencyFrom;
 		this.currencyTo = currencyTo;
 		this.amountFrom = amountFrom;
+		this.amountTo = amountTo;
 	}
 
 	public Long getId() {
@@ -88,5 +91,16 @@ public class Conversion {
 	public void setAmountTo(Float amountTo) {
 		this.amountTo = amountTo;
 	}
+
+	@Column(name = "exchange_date", nullable = false)
+	public String getExchangeDate() {
+		return exchangeDate;
+	}
+
+	public void setExchangeDate(String exchangeDate) {
+		this.exchangeDate = exchangeDate;
+	}
+
+	
 
 }

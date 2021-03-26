@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +16,12 @@ import org.springframework.stereotype.Service;
 
 import com.airtel.currencyconverter.controller.form.QueryForm;
 import com.airtel.currencyconverter.exception.ResourceNotFoundException;
+import com.airtel.currencyconverter.model.Currency;
 import com.airtel.currencyconverter.model.User;
 import com.airtel.currencyconverter.repository.UserRepository;
+import com.airtel.currencyconverter.service.CurrencyService;
 import com.airtel.currencyconverter.service.UserService;
+import com.airtel.currencyconverter.util.CurrencyUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,6 +34,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private CurrencyService currencyService;
+
 	public User create(User user) {
 		User saved = userRepository.save(user);
 		return saved;
@@ -39,7 +46,6 @@ public class UserServiceImpl implements UserService {
 		User saved = userRepository.save(user);
 		return saved;
 	}
-
 
 	public List<User> get() {
 		return userRepository.findAll();
@@ -53,6 +59,10 @@ public class UserServiceImpl implements UserService {
 	public QueryForm getQueryForm() {
 		QueryForm queryForm = new QueryForm();
 		queryForm.setDate(simpleDateFormat.format(new Date()));
+		List<Currency> currencies =
+			currencyService.get().stream().filter((predicate) -> !predicate.getCode().equals(CurrencyUtil.DOLLAR)).collect(Collectors.toList());
+		logger.trace("Number of currencies found in database " + currencies.size());
+		queryForm.setCurrencies(currencies);
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		user.getQueries().remove("latest");
 		queryForm.setQueryHistory(new ArrayList<String>(user.getQueries()));
@@ -61,11 +71,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		logger.error("Finding users with %s", username);
+		logger.trace("Finding users with %s", username);
 		User user = userRepository.findByEmail(username);
 		if (user == null)
 			throw new UsernameNotFoundException("User not found");
-		logger.error("Found User ", username);
+		logger.trace("Found User ", username);
 		return user;
 	}
 

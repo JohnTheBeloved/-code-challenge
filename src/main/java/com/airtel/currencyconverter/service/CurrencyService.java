@@ -11,6 +11,10 @@ public interface CurrencyService {
 
 	List<Currency> get();
 
+	Currency getBaseCurrency();
+
+	Currency getByCode(String code);
+
 	void delete(Long id) throws ResourceNotFoundException;
 
 	boolean save(List<Currency> currencies);

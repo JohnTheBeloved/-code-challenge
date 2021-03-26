@@ -21,13 +21,14 @@ public class Exchange {
 	@JoinColumn(name = "currency_id", referencedColumnName = "id")
 	private Currency currency;
 	private String exchangeDate;
-	private Double rate;
+	private Float rate;
+	private Float result;
 
 	public Exchange() {
 
 	}
 
-	public Exchange(Currency currency, String exchangeDate, Double rate) {
+	public Exchange(Currency currency, String exchangeDate, Float rate) {
 		this.currency = currency;
 		this.exchangeDate = exchangeDate;
 		this.rate = rate;
@@ -59,12 +60,24 @@ public class Exchange {
 	}
 
 	@Column(name = "rate", nullable = false)
-	public Double getRate() {
+	public Float getRate() {
 		return this.rate;
 	}
 
-	public void setRate(Double rate) {
+	public void setRate(Float rate) {
 		this.rate = rate;
+	}
+
+	public void setResult(Float result) {
+		this.result = result;
+	}
+
+	public Float getResult() {
+		return this.result;
+	}
+
+	public Float calculateResult(Float amount) {
+		return rate * amount;
 	}
 
 }

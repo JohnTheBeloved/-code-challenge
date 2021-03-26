@@ -1,12 +1,14 @@
 package com.airtel.currencyconverter.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.airtel.currencyconverter.exception.ResourceNotFoundException;
+import com.airtel.currencyconverter.model.Currency;
 import com.airtel.currencyconverter.model.Exchange;
 import com.airtel.currencyconverter.model.User;
 import com.airtel.currencyconverter.openexchange.service.OpenExchangeApiService;
@@ -20,7 +22,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 	@Autowired
 	private ExchangeRepository exchangeRepository;
 
-	@Autowired 
+	@Autowired
 	UserService userService;
 
 	@Autowired
@@ -62,10 +64,29 @@ public class ExchangeServiceImpl implements ExchangeService {
 			exchanges = exchangeRepository.findByExchangeDate(date);
 		}
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(!user.getQueries().contains(date)) {
+		if (!user.getQueries().contains(date)) {
 			user.getQueries().add(date);
 			userService.update(user);
 		}
+		return exchanges;
+	}
+
+	@Override
+	public Exchange getDateExchange(Currency currency, String date) throws ResourceNotFoundException {
+		List<Exchange> exchanges = getDateExchanges(date);
+		Exchange exchange = Optional.of(exchanges)
+			.orElseThrow(() -> new ResourceNotFoundException("No exchange found for this date " + date))
+			.stream()
+			.filter((predicate) -> predicate.getCurrency().getId().equals(currency.getId()))
+			.findAny()
+			.orElseThrow(() -> new ResourceNotFoundException("No exchange found for this date " + date));
+		return exchange;
+	}
+
+	@Override
+	public List<Exchange> getDateExchanges(String date, Float amount) {
+		List<Exchange> exchanges = getDateExchanges(date);
+		exchanges.stream().forEach((predicate) -> predicate.setResult(predicate.calculateResult(amount)));
 		return exchanges;
 	}
 

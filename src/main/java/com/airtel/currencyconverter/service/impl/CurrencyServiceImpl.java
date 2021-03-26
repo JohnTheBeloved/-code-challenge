@@ -9,6 +9,7 @@ import com.airtel.currencyconverter.exception.ResourceNotFoundException;
 import com.airtel.currencyconverter.model.Currency;
 import com.airtel.currencyconverter.repository.CurrencyRepository;
 import com.airtel.currencyconverter.service.CurrencyService;
+import com.airtel.currencyconverter.util.CurrencyUtil;
 
 @Service
 public class CurrencyServiceImpl implements CurrencyService {
@@ -40,6 +41,16 @@ public class CurrencyServiceImpl implements CurrencyService {
 		List<Currency> saved = currencyRepository.saveAll(currencies);
 		noSaved = saved.size();
 		return noToSave == noSaved;
+	}
+
+	@Override
+	public Currency getBaseCurrency() {
+		return getByCode(CurrencyUtil.DOLLAR);
+	}
+
+	@Override
+	public Currency getByCode(String code) {
+		return currencyRepository.findByCode(code);
 	}
 
 }

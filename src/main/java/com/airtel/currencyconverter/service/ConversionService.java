@@ -15,6 +15,6 @@ public interface ConversionService {
 
 	boolean save(List<Conversion> currencies);
 
-	Float create(String currencyCode, Float amount);
+	Conversion create(String currencyCode, String date, Float amountFrom) throws ResourceNotFoundException;
 
 }

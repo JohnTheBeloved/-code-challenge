@@ -23,93 +23,108 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 	"HUF",
 	"JPY",
 	"NZD",
+	"NGN",
 	"USD" })
 public class Rates {
 
 	@JsonProperty("AUD")
-	private Double aUD;
+	private Float aUD;
 	@JsonProperty("EUR")
-	private Double eUR;
+	private Float eUR;
 	@JsonProperty("GBP")
-	private Double gBP;
+	private Float gBP;
 	@JsonProperty("HUF")
-	private Double hUF;
+	private Float hUF;
 	@JsonProperty("JPY")
-	private Double jPY;
+	private Float jPY;
 	@JsonProperty("NZD")
-	private Double nZD;
+	private Float nZD;
+	@JsonProperty("NGN")
+	private Float nGN;
 	@JsonProperty("USD")
-	private Double uSD;
+	private Float uSD;
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
 	@JsonProperty("AUD")
-	public Double getAUD() {
+	public Float getAUD() {
 		return aUD;
 	}
 
 	@JsonProperty("AUD")
-	public void setAUD(Double aUD) {
+	public void setAUD(Float aUD) {
 		this.aUD = aUD;
 	}
 
 	@JsonProperty("EUR")
-	public Double getEUR() {
+	public Float getEUR() {
 		return eUR;
 	}
 
 	@JsonProperty("EUR")
-	public void setEUR(Double eUR) {
+	public void setEUR(Float eUR) {
 		this.eUR = eUR;
 	}
 
 	@JsonProperty("GBP")
-	public Double getGBP() {
+	public Float getGBP() {
 		return gBP;
 	}
 
 	@JsonProperty("GBP")
-	public void setGBP(Double gBP) {
+	public void setGBP(Float gBP) {
 		this.gBP = gBP;
 	}
 
+
+	@JsonProperty("NGN")
+	public Float getNGN() {
+		return nGN;
+	}
+
+	@JsonProperty("NGN")
+	public void setNGN(Float nGN) {
+		this.nGN = nGN;
+	}
+
+
 	@JsonProperty("HUF")
-	public Double getHUF() {
+	public Float getHUF() {
 		return hUF;
 	}
 
 	@JsonProperty("HUF")
-	public void setHUF(Double hUF) {
+	public void setHUF(Float hUF) {
 		this.hUF = hUF;
 	}
 
 	@JsonProperty("JPY")
-	public Double getJPY() {
+	public Float getJPY() {
 		return jPY;
 	}
 
 	@JsonProperty("JPY")
-	public void setJPY(Double jPY) {
+	public void setJPY(Float jPY) {
 		this.jPY = jPY;
 	}
 
 	@JsonProperty("NZD")
-	public Double getNZD() {
+	public Float getNZD() {
 		return nZD;
 	}
 
 	@JsonProperty("NZD")
-	public void setNZD(Double nZD) {
+	public void setNZD(Float nZD) {
 		this.nZD = nZD;
 	}
 
 	@JsonProperty("USD")
-	public Double getUSD() {
+	public Float getUSD() {
 		return uSD;
 	}
 
 	@JsonProperty("USD")
-	public void setUSD(Double uSD) {
+	public void setUSD(Float uSD) {
 		this.uSD = uSD;
 	}
 

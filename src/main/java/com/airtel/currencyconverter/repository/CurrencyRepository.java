@@ -9,4 +9,5 @@ import com.airtel.currencyconverter.model.Currency;
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, Long> {
 
+	public Currency findByCode(String code);
 }

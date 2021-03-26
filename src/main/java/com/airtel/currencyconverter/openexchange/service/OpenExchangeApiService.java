@@ -20,6 +20,7 @@ import com.airtel.currencyconverter.model.Exchange;
 import com.airtel.currencyconverter.openexchange.model.ExchangeHistory;
 import com.airtel.currencyconverter.service.CurrencyService;
 import com.airtel.currencyconverter.service.ExchangeService;
+import com.airtel.currencyconverter.util.CurrencyUtil;
 
 @Service
 public class OpenExchangeApiService {
@@ -59,13 +60,14 @@ public class OpenExchangeApiService {
 	public void createCurrencies() {
 		if(currencyService.get().isEmpty()) {
 			Currency euro = new Currency("Euro", "Europe", "EUR");
-			Currency usDollar = new Currency("US Dollar", "Nigeria", "USD");
+			Currency usDollar = new Currency("US Dollar", "United States", CurrencyUtil.DOLLAR);
 			Currency pound = new Currency("British Pound", "United Kingdom", "GBP");
 			Currency nzDollar = new Currency("New Zealand Dollar", "New Zealand", "NZD");
 			Currency auDollar = new Currency("Austriallian Dollar", "Austrialia", "AUD");
 			Currency yen = new Currency("Japanese Yen", "Japan", "JPY");
 			Currency forint = new Currency("Hungarian Forint ", "Hungary", "HUF");
-			List<Currency> currencies = Arrays.asList(euro, usDollar, pound, nzDollar, auDollar, yen, forint);
+			Currency naira = new Currency("Naira ", "Nigeria", "NGN");
+			List<Currency> currencies = Arrays.asList(euro, usDollar, pound, nzDollar, auDollar, yen, forint, naira);
 			logger.info("Creating %s currencies for exchange rate conversion", currencies.size());
 			currencyService.save(currencies);
 		}

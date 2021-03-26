@@ -22,7 +22,7 @@
         <div class="row">
             <section id="messages">
                 <div class="callout alert">
-                    Showing currency Exchange Rates for <span th:text="${queryForm.date}"></span>
+                    Showing USD currency Exchange Rates for <span th:text="${queryForm.date}"></span>
                 </div>
             </section>
             <br>
@@ -31,35 +31,72 @@
             <div class="medium-12 columns">
                 <div class="table-scroll">
                     <form th:action="@{/home}" th:object="${queryForm}" method="post">
-
+                        <div>
+                            <div class="large-24 columns">
+                                <br>
+                                <p th:if="${#fields.hasErrors('*') || errorMessage != null}" class="clearfix alert-box alert alert-error radius" style="text-align:left">
+                                    <strong>Please check and correct the following:</strong></br>
+                                    <span th:if="${#fields.hasErrors('date')}"><span th:errors="*{date}" /></br></span>
+                                    <span th:if="${#fields.hasErrors('currency')}"><span th:errors="*{currency}" /></br></span>
+                                    <span th:if="${#fields.hasErrors('amount')}"><span th:errors="*{amount}" /></br></span>
+                                    <span th:if="${errorMessage != null}"><span th:text="${errorMessage}" /></br></span>
+                                </p>
+                            </div>
+                        </div>
                         <div class="row">
-                            <div class="large-5 columns">
+                            <div class="large-7 columns">
                                 <label for="email">Select Date*:</label>
                             </div>
-                            <div class="large-14 columns ">
+                            <div class="large-11 columns ">
                                 <input th:field="*{date}" type="date" th:value="${queryForm.date}">
                             </div>
-                            <div class="large-2 columns end">
-                                <button type="submit" value="Submit">Submit</button>
+                        </div>
+                        <div class="row">
+                            <div class="large-7 columns">
+                                <label for="email">Select Currency*:</label>
+                            </div>
+                            <div class="large-11 columns ">
+                                <select th:field="*{currency}">
+                                    <option th:each="c : ${queryForm.currencies}" th:value="${c.getCode()}" th:text="${c.getName()}"></option>
+                                </select>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="large-24 columns">
+                            <div class="large-7 columns">
+                                <label for="email">Enter Amount*:</label>
+                            </div>
+                            <div class="large-11 columns ">
+                                <input th:field="*{amount}" type="number" th:value="${queryForm.amount}">
+                            </div>
+                        </div>
+                        <div h:if="${queryForm.result != null && queryForm.result != 0.0F}" class=" row ">
+                            <div class="large-7 columns ">
+                                <label for="email ">Query Result*:</label>
+                            </div>
+                            <div class="large-11 columns ">
+                                <span th:text="${queryForm.result} ">
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="large-24 columns end ">
+                                <button type="submit " value="Submit ">Submit</button>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="large-24 columns ">
                                 <label>Last 10 Queries :</label>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div th:each="date : ${queryForm.queryHistory}" class="large-6 columns " style="padding-left: 2px;">
-                                <a th:href="@{'/home?date=' + ${date}}" th:text="${date}"></a>
+                            <div th:each="date : ${queryForm.conversions} " class="large-6 columns " style="padding-left: 2px; ">
+                                You converted <span th:text="${conversion.amountFrom}" /> dollar(s) for <a th:href="@{ '/home?date=' + ${date}} " th:text="${date} "></a> to <span th:text="${conversion.amountTo}" > <span th:text="${conversion.currencyTo.name}" />
                             </div>
                         </div>
                     </form>
 
-                    <table id="app-ids">
+                    <table id="app-ids ">
                         <thead>
 
                             <tr>
-                                <th style="width:20%">
+                                <th style="width:20% ">
                                     Exchange Currency
                                 </th>
                                 <th>
@@ -68,20 +105,24 @@
                                 <th>
                                     Rate
                                 </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="exchangeRate : ${exchangeRates}">
-                                <td class="monospace" th:text="${exchangeRate.currency.name}"> </td>
-                                <td class="monospace" th:text="${exchangeRate.exchangeDate}"> </td>
-                                <td class="monospace" th:text="${exchangeRate.rate}"> </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                <th>
+                                    <span th:text="${queryForm.amount}"> USD</span>
+                                </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="exchangeRate : ${exchangeRates} ">
+                                        <td class="monospace " th:text="${exchangeRate.currency.name} "> </td>
+                                        <td class="monospace " th:text="${exchangeRate.exchangeDate} "> </td>
+                                        <td class="monospace " th:text="${exchangeRate.rate} "> </td>
+                                        <td class="monospace " th:text="${exchangeRate.result} "> </td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
                 </div>
             </div>
-        </div>
-    </div>
 </body>
 
 </html>

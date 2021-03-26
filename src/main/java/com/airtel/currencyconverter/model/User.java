@@ -1,8 +1,7 @@
 package com.airtel.currencyconverter.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -13,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -45,11 +46,29 @@ public class User implements UserDetails {
 	@Size(min = 3, message = "Lastname should be at least 5 characters")
 	private String lastName;
 
+	@NotEmpty
+	@Size(min = 3, message = "Please select a Date of Birth")
+	private String dateOfBirth;
+	@NotEmpty
+	@Size(min = 3, message = "Enter your street Address")
+	private String addressLine1;
+	private String addressLine2;
+	@NotEmpty
+	@Size(min = 3, message = "City should be at least 5 characters")
+	private String city;
+	@NotEmpty
+	@Size(min = 3, message = "Please select country")
+	private String country;
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "queries")
 	private Set<String> queries;
 
-	@Column(name = "email", nullable = false)
+	@OneToMany
+	@JoinTable(name = "user_conversion")
+	private Set<Conversion> conversions;
+
+	@Column(name = "email", nullable = false, unique = true)
 	public String getEmail() {
 		return this.email;
 	}
@@ -94,6 +113,53 @@ public class User implements UserDetails {
 		this.lastName = lastName;
 	}
 
+	@Column(name = "date_of_birth", nullable = false)
+	public String getDateOfBirth() {
+		return this.dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	@Column(name = "address_line_1", nullable = false)
+	public String getAddressLine1() {
+		return this.addressLine1;
+	}
+
+	public void setAddressLine1(String addressLine1) {
+		this.addressLine1 = addressLine1;
+	}
+
+
+	@Column(name = "address_line_2", nullable = false)
+	public String getAddressLine2() {
+		return this.addressLine2;
+	}
+
+	public void setAddressLine2(String addressLine2) {
+		this.addressLine2 = addressLine2;
+	}
+
+
+	@Column(name = "city", nullable = false)
+	public String getCity() {
+		return this.city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	@Column(name = "country", nullable = false)
+	public String getCountry() {
+		return this.country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
 	public Set<String> getQueries() {
 		return queries;
 	}
@@ -102,9 +168,17 @@ public class User implements UserDetails {
 		this.queries = queries;
 	}
 
+	public Set<Conversion> getConversions() {
+		return conversions;
+	}
+
+	public void setConversion(Set<Conversion> conversions) {
+		this.conversions = conversions;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
+		Set<GrantedAuthority> auths = new HashSet<>();
 		GrantedAuthority auth = new SimpleGrantedAuthority("ROLE_ADMIN");
 		auths.add(auth);
 		return auths;
