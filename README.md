@@ -10,9 +10,9 @@ Two basic features
  - Perform a new Conversion
 
  ### Requirements Checklist
--  [x] Integrstion with openexchange
 -  [x] Registration Page
 -  [x] Login Page
+-  [x] Integration with openexchange
 -  [x] Main screen
 -  [x] Query History
 -  [x] Main currencies (EUR, USD, GBP, NZD, AUD, JPY, HUF) and Naira
@@ -51,12 +51,12 @@ Two basic features
   * Open your browser and access the http://localhost:8080
 ## Users
 ###  How to use the app
- - Create the Jar application archive (see developer above)
+ - Create the runnable Jar application archive (see developer section above)
  - Run the Java application (see developer section above)
  - Navigate to http://localhost:8080/register
  - Put in your details to register and click on the registration button
  - After successful registration, you are taken to the login page
- - The home page is then displayed where you can see your previous conversions and also perform conversion
+ - Upon succesful login, the home page is then displayed where you can see your previous conversions and also perform currency conversions
  - To logout of the application, click on the logout link at the top left corner
  - Yes, that's it. That all :) Thanks. Or if we have [more time](https://www.youtube.com/watch?v=sy0fIyongdI), we can add more features
 
