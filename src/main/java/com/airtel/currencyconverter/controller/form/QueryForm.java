@@ -5,21 +5,20 @@ import java.util.List;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import com.airtel.currencyconverter.model.Conversion;
 import com.airtel.currencyconverter.model.Currency;
 
 public class QueryForm {
 
-	@NotNull(message =  "No date supplied")
-	@NotEmpty(message =  "Select a date")
+	@NotNull(message = "No date supplied")
+	@NotEmpty(message = "Select a date")
 	public String date;
-	@NotNull(message =  "No currency Supplied")
-	@NotEmpty(message =  "Select a date")
+	@NotNull(message = "No currency Supplied")
+	@NotEmpty(message = "Select a date")
 	public String currency;
-	@NotNull(message =  "No amount Supplied")
-	@Min(value = 1, message =  "Enter an amount greater than 0")
+	@NotNull(message = "No amount Supplied")
+	@Min(value = 1, message = "Enter an amount greater than 0")
 	public Float amount = 0F;
 	public Float result = null;
 	public List<String> queryHistory;
@@ -50,7 +49,6 @@ public class QueryForm {
 		this.amount = amount;
 	}
 
-
 	public Float getResult() {
 		return result;
 	}
@@ -67,7 +65,6 @@ public class QueryForm {
 		this.queryHistory = queryHistory;
 	}
 
-
 	public List<Currency> getCurrencies() {
 		return currencies;
 	}
@@ -76,7 +73,6 @@ public class QueryForm {
 		this.currencies = currencies;
 	}
 
-
 	public List<Conversion> getConversions() {
 		return conversions;
 	}
@@ -84,6 +80,5 @@ public class QueryForm {
 	public void setConversions(List<Conversion> conversions) {
 		this.conversions = conversions;
 	}
-
 
 }
