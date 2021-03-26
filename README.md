@@ -62,7 +62,7 @@ Two basic features
 
  ### Deeper Dive
   - The currencies are provisioned when the application begins
-  - If currencies exist, the `application.properties` value `currencies.recreate` is checked to see the existing currency should be deleted and all currencies recreated
-  - 
+  - If currencies exist, the `application.properties` value `currencies.recreate` is checked to see if the existing currency should be deleted and all currencies recreated
+  - TO be continued...
 
 
