@@ -1,9 +1,9 @@
-# Airtel Code Challenge (Currency Converter)
+#  Code Challenge (Currency Converter)
 
 
 ## About this Project
 
-This project is a JAVA Spring MVC application written as a code challenge for Airtel's Software developer role, Basicallly it helps you perform simple conversions from US Dollar to [5 currencies](helpdesk@ehealthafrica.com) while leveraging on the openexchange REST API.
+This project is a JAVA Spring MVC application written as a code challenge for  Software developer role, Basicallly it helps you perform simple conversions from US Dollar to [5 currencies](helpdesk@ehealthafrica.com) while leveraging on the openexchange REST API.
 
 Two basic features 
  - View your previous conversions
